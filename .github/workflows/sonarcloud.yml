@@ -19,9 +19,6 @@ jobs:
         uses: SonarSource/sonarcloud-github-c-cpp@v2
       - name: Install dependencies
         run: |
-          curl -L -O https://github.com/adoptium/temurin19-binaries/releases/download/jdk-19%2B36/OpenJDK19U-jdk_x64_linux_hotspot_19_36.tar.gz
-          tar xvzf OpenJDK19U-jdk_x64_linux_hotspot_19_36.tar.gz
-
           # http://openjdk.5641.n7.nabble.com/Why-is-CUPS-required-td134487.html
           wget https://github.com/apple/cups/releases/download/release-1.6.1/cups-1.6.1-source.tar.gz
           tar -xzf cups-1.6.1-source.tar.gz
@@ -29,7 +26,7 @@ jobs:
           ln -s . include
       - name: Run build-wrapper
         run: |
-          bash configure --disable-warnings-as-errors --with-boot-jdk=$(pwd)/jdk-19+36 --with-cups=$(pwd)/cups-1.6.1 --enable-debug
+          bash configure --disable-warnings-as-errors --with-cups=$(pwd)/cups-1.6.1 --enable-debug
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make images
       - name: Run sonar-scanner
         env:
